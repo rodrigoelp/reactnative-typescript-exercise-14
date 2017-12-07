@@ -4,11 +4,18 @@ import { IDietItem } from "./models";
 
 interface ISnackProps {
     snackInfo: IDietItem;
+    updated: () => void;
 }
 
-class Snack extends React.Component<ISnackProps> {
+interface ISnackState {
+    quantity: number;
+}
+
+class Snack extends React.Component<ISnackProps, ISnackState> {
     constructor(props: ISnackProps) {
         super(props);
+
+        this.state = { quantity: props.snackInfo.quantityEaten };
     }
 
     public render() {
@@ -18,14 +25,21 @@ class Snack extends React.Component<ISnackProps> {
                     <Text style={{ alignItems: "stretch", flex: 1 }}>
                         {this.props.snackInfo.productName}
                     </Text>
-                    <Text>{this.props.snackInfo.quantityEaten}</Text>
+                    <Text>{this.state.quantity}</Text>
                 </View>
                 <View style={{ alignSelf: "flex-end", flexDirection: "row", marginHorizontal: 48, alignContent: "center" }}>
-                    <Button title="⬆️" onPress={() => { }} />
-                    <Button title="⬇️" onPress={() => { }} />
+                    <Button title="⬆️" onPress={() => this.update(1)} />
+                    <Button title="⬇️" onPress={() => this.update(-1)} />
                 </View>
             </View>
         );
+    }
+
+    private update = (updateAmount: number) => {
+        let quantity = this.state.quantity + updateAmount;
+        if (quantity < 0) quantity = 0;
+
+        this.setState({ ...this.state, quantity: quantity }, this.props.updated);
     }
 }
 

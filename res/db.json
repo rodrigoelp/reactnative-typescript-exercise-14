@@ -1,0 +1,104 @@
+[
+    {
+        "Id": "69a39b10-a9f6-45ac-b774-7ca95a71854a",
+        "productName": "Banana",
+        "photoUrl": "https://cdn.pixabay.com/photo/2014/05/14/20/34/banana-344361_960_720.jpg",
+        "energyIntake": 335
+    },
+    {
+        "Id": "4d1a606d-a430-4d67-bf0b-b26ff4bfae25",
+        "productName": "Banana Split",
+        "photoUrl": "https://cdn.pixabay.com/photo/2014/03/07/11/00/bananas-282319_960_720.jpg",
+        "energyIntake": 3485.27
+    },
+    {
+        "Id": "1987f6cb-c136-4141-828c-bc9668069c2d",
+        "productName": "Lollies",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/09/18/20/25/candy-1678933_960_720.jpg",
+        "energyIntake": 460.24
+    },
+    {
+        "Id": "ceebf7a7-5941-430d-b54c-1bbedf49c36d",
+        "productName": "Nuts",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/11/22/22/53/nuts-2971675_960_720.jpg",
+        "energyIntake": 351.456
+    },
+    {
+        "Id": "af07d40c-7a4e-4233-a096-cbafd4f79abe",
+        "productName": "Almonds Raw",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/10/25/12/56/almonds-1768792_960_720.jpg",
+        "energyIntake": 29.288
+    },
+    {
+        "Id": "fcb15ffc-012b-43fe-9690-47ca5a48ba0d",
+        "productName": "Yogurt with berries",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/08/07/15/02/blueberries-1576409_960_720.jpg",
+        "energyIntake": 209.2
+    },
+    {
+        "Id": "7f3f94a0-847e-4abc-b648-41183be9a73f",
+        "productName": "Peanuts",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/10/13/01/04/nuts-1736520_960_720.jpg",
+        "energyIntake": 25.104
+    },
+    {
+        "Id": "e683d4e0-decf-448d-baca-08aa90b5face",
+        "productName": "Fresh Fruit",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/01/15/18/23/mango-1982330_960_720.jpg",
+        "energyIntake": 414
+    },
+    {
+        "Id": "75678b6c-eeb3-4dda-91d2-f15cecb411d7",
+        "productName": "Popcorn",
+        "photoUrl": "https://cdn.pixabay.com/photo/2015/12/09/17/12/popcorn-1085072_960_720.jpg",
+        "energyIntake": 230.12
+    },
+    {
+        "Id": "6de87c32-391f-46c5-9c46-b777594c42ca",
+        "productName": "Pretzel",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/04/30/16/18/pretzel-2273216_960_720.jpg",
+        "energyIntake": 418.4
+    },
+    {
+        "Id": "550e781f-a0de-42a3-9c98-31076b9fd179",
+        "productName": "Fine Chocolate",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/02/25/22/58/strawberries-1223153_960_720.jpg",
+        "energyIntake": 305.432
+    },
+    {
+        "Id": "2c511f31-556e-453a-9f60-992c4a82b542",
+        "productName": "Hot Dog",
+        "photoUrl": "https://cdn.pixabay.com/photo/2012/12/11/21/28/pork-69429_960_720.jpg",
+        "energyIntake": 1317.96
+    },
+    {
+        "Id": "65085d3b-da9d-4af1-91c9-9b8756db9cc4",
+        "productName": "Chips",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/09/18/15/14/french-fries-2762014_960_720.jpg",
+        "energyIntake": 2133.84
+    },
+    {
+        "Id": "368ac731-2f3f-481e-be3c-a04a23438b54",
+        "productName": "Bombastic Pulled Pork Sandwich with Chips",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/10/17/00/58/hotdog-2859239_960_720.jpg",
+        "energyIntake": 4514.536
+    },
+    {
+        "Id": "c53837a5-a581-486b-b770-89699ac58faa",
+        "productName": "Nachos con Queso",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/08/02/12/21/nacho-2571340_960_720.jpg",
+        "energyIntake": 794.96
+    },
+    {
+        "Id": "2857203e-4d7e-43ab-89d2-f4c98d88d99b",
+        "productName": "Taco Salad Bowl",
+        "photoUrl": "https://cdn.pixabay.com/photo/2016/06/22/23/33/salad-1474357_960_720.jpg",
+        "energyIntake": 3221.68
+    },
+    {
+        "Id": "e046d966-84b6-4c17-aba7-02ed804c8290",
+        "productName": "Deep Fried Snickers Bar",
+        "photoUrl": "https://cdn.pixabay.com/photo/2017/06/19/22/26/chocolate-2421044_960_720.jpg",
+        "energyIntake": 2698.68
+    }
+]

@@ -1,15 +1,13 @@
 import * as React from "react";
-import { View, Text, Button, StyleSheet, Platform, FlatList  } from "react-native";
+import { View, Text, Button, StyleSheet, Platform, FlatList } from "react-native";
 import { Snack } from "./snack";
-import { IDietItem } from "./models";
+import { IDietItem, IFoodDescription } from "./models";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        marginTop: 40
+        paddingTop: 40
     },
     welcome: {
         fontSize: 20,
@@ -24,28 +22,66 @@ const styles = StyleSheet.create({
     },
 });
 
+interface IAppState {
+    currentDiet: IDietItem[];
+    totalConsumed: number;
+}
 
-class App extends React.PureComponent {
-    private availableSnacks: string[];
-    private myCurrentDiet: IDietItem[];
-
+class App extends React.Component<{}, IAppState> {
     constructor(props: any) {
         super(props);
-        this.availableSnacks = ["Apples", "Almonds", "Popcorn", "Chocolate", "Pack of lollies", "Deep Fried Sniker", "Corn dog", "Glass of water"];
-        this.myCurrentDiet = this.availableSnacks.map<IDietItem>((name: string) => ({ productName: name, quantityEaten: 0 }));
+
+        this.state = { currentDiet: [], totalConsumed: 0 };
+    }
+
+    componentDidMount() {
+        const data = require("../res/db.json") as IFoodDescription[];
+        this.setState({
+            ... this.state,
+            currentDiet: data.map<IDietItem>((x) => ({ productName: x.productName, quantityEaten: 0, associatedFood: x }))
+        });
     }
 
     public render() {
         return (
             <View style={styles.container}>
+                <Text style={{ fontSize: 24, textAlign: "center" }}>
+                    Today's Status
+                </Text>
+                <Text>
+                    {this.renderIntakeMessage()}
+                </Text>
                 <FlatList
                     ListHeaderComponent={this.renderHeader}
-                    data={this.myCurrentDiet}
+                    ListEmptyComponent={this.renderEmptyList}
+                    data={this.state.currentDiet}
                     renderItem={({ item }) => this.renderItem(item)}
                     keyExtractor={(item: IDietItem) => item.productName}
                 />
             </View>
         );
+    }
+
+    private renderIntakeMessage = (): JSX.Element => {
+        const energyConsumed = this.state.totalConsumed;
+        if (energyConsumed > 0) {
+            return (
+                <Text style={{ textAlign: "center" }}>
+                    <Text>You have consumed{"\n\n"}</Text>
+                    <Text style={{ fontSize: 24, textAlign: "center" }}>{energyConsumed}</Text>
+                </Text>
+            );
+        }
+
+        return (
+            <Text>
+                You have not consumed anything today and you look peckish.
+            </Text>
+        );
+    }
+
+    private renderEmptyList = () => {
+        return <Text>Please wait a sec while we load delicious treats.</Text>;
     }
 
     private renderHeader = () => {
@@ -54,8 +90,17 @@ class App extends React.PureComponent {
 
     private renderItem = (item: IDietItem) => {
         return (
-            <Snack snackInfo={item} />
+            <Snack snackInfo={item} updated={this.handleUpdate} />
         )
+    }
+
+    private handleUpdate = (): void => {
+        const total = this.state.currentDiet.reduce(
+            (acc, v) => acc + (v.quantityEaten * v.associatedFood.energyIntake),
+            0
+        )
+
+        this.setState({ ...this.state, totalConsumed: total });
     }
 }
 
