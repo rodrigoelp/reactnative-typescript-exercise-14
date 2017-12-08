@@ -51,7 +51,7 @@ const initialFoodList: IProduct[] = [];
  */
 const availableProductsReducer = (state: IProduct[] = initialFoodList, action: AnyAction): IProduct[] => {
     if (action.type === ActionType.ProductsAdded) {
-        return state.concat(action.payload);
+        return state.concat(action.payload).sort((a, b) => a.productName.localeCompare(b.productName));
     }
     return state;
 }
