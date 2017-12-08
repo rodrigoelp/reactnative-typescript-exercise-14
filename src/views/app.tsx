@@ -1,7 +1,11 @@
 import * as React from "react";
 import { View, Text, Button, StyleSheet, Platform, FlatList } from "react-native";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 import { Snack } from "./snack";
-import { IDietItem, IFoodDescription } from "../models";
+import { IDietItem, IFoodDescription, IAppStore, IUserConsumption } from "../models";
+import { fetchAvailableProductsActionCreator, updateDietActionCreator } from "../reducers";
+import { bindActionCreators } from "redux";
 
 const styles = StyleSheet.create({
     container: {
@@ -22,61 +26,49 @@ const styles = StyleSheet.create({
     },
 });
 
-interface IAppState {
-    currentDiet: IDietItem[];
-    totalConsumed: number;
+interface IAppProps {
+    hasEatenAnythingToday: boolean;
+    totalIntake: number;
+    availableProducts: IFoodDescription[];
 }
 
-class App extends React.Component<{}, IAppState> {
+interface IAppActions {
+    fetchProducts: () => any;
+    updateUserDiet: (product: IFoodDescription, qty: number) => any;
+}
+
+type AppProps = IAppProps & IAppActions;
+
+class App extends React.Component<AppProps> {
     constructor(props: any) {
         super(props);
-
-        this.state = { currentDiet: [], totalConsumed: 0 };
     }
 
     componentDidMount() {
-        const data = require("../../res/db.json") as IFoodDescription[];
-        this.setState({
-            ... this.state,
-            currentDiet: data.map<IDietItem>((x) => ({ productName: x.productName, quantityEaten: 0, associatedFood: x }))
-        });
+        this.props.fetchProducts();
     }
 
     public render() {
+        const energyForamtter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 3 });
         return (
             <View style={styles.container}>
-                <Text style={{ fontSize: 24, textAlign: "center" }}>
+                <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 24 }}>
                     Today's Status
                 </Text>
-                <Text>
-                    {this.renderIntakeMessage()}
+                <Text style={{ textAlign: "right", marginHorizontal: 40, marginBottom: 24 }}>
+                    You have consumed today:{"\n"}
+                    <Text style={{ fontSize: 24 }}>
+                        {energyForamtter.format(this.props.totalIntake)} / 8700kJ
+                    </Text>
                 </Text>
                 <FlatList
                     ListHeaderComponent={this.renderHeader}
                     ListEmptyComponent={this.renderEmptyList}
-                    data={this.state.currentDiet}
+                    data={this.props.availableProducts}
                     renderItem={({ item }) => this.renderItem(item)}
-                    keyExtractor={(item: IDietItem) => item.productName}
+                    keyExtractor={(item: IFoodDescription) => item.productName}
                 />
             </View>
-        );
-    }
-
-    private renderIntakeMessage = (): JSX.Element => {
-        const energyConsumed = this.state.totalConsumed;
-        if (energyConsumed > 0) {
-            return (
-                <Text style={{ textAlign: "center" }}>
-                    <Text>You have consumed{"\n\n"}</Text>
-                    <Text style={{ fontSize: 24, textAlign: "center" }}>{energyConsumed}</Text>
-                </Text>
-            );
-        }
-
-        return (
-            <Text>
-                You have not consumed anything today and you look peckish.
-            </Text>
         );
     }
 
@@ -88,20 +80,32 @@ class App extends React.Component<{}, IAppState> {
         return <Text style={styles.welcome}>What have you eaten today?</Text>
     }
 
-    private renderItem = (item: IDietItem) => {
+    private renderItem = (item: IFoodDescription) => {
         return (
-            <Snack snackInfo={item} updated={this.handleUpdate} />
+            <Snack product={item} updated={this.handleSnackUpdated} />
         )
     }
 
-    private handleUpdate = (): void => {
-        const total = this.state.currentDiet.reduce(
-            (acc, v) => acc + (v.quantityEaten * v.associatedFood.energyIntake),
-            0
-        )
-
-        this.setState({ ...this.state, totalConsumed: total });
+    private handleSnackUpdated = (product: IFoodDescription, qty: number) => {
+        this.props.updateUserDiet(product, qty);
     }
 }
 
-export { App };
+const mapStateToProps = (state: IAppStore): IAppProps => {
+    return {
+        hasEatenAnythingToday: state.userInfo.totalEnergyIntake !== 0,
+        totalIntake: state.userInfo.totalEnergyIntake,
+        availableProducts: state.availableFood
+    };
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): IAppActions => {
+    return bindActionCreators({
+        fetchProducts: fetchAvailableProductsActionCreator,
+        updateUserDiet: updateDietActionCreator,
+    }, dispatch);
+}
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export { AppContainer };

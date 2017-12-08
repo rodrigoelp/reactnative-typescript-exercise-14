@@ -1,5 +1,5 @@
-import { App } from "./app";
+import { AppContainer } from "./app";
 import { AppShell } from "./appShell";
 import { Snack } from "./snack";
 
-export { App, AppShell, Snack };
+export { AppShell, AppContainer, Snack };

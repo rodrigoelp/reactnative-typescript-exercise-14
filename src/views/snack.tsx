@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
-import { IDietItem } from "../models";
+import { IFoodDescription } from "../models";
 
 interface ISnackProps {
-    snackInfo: IDietItem;
-    updated: () => void;
+    product: IFoodDescription;
+    updated: (product: IFoodDescription, qty: number) => void;
 }
 
 interface ISnackState {
@@ -15,7 +15,7 @@ class Snack extends React.Component<ISnackProps, ISnackState> {
     constructor(props: ISnackProps) {
         super(props);
 
-        this.state = { quantity: props.snackInfo.quantityEaten };
+        this.state = { quantity: 0};
     }
 
     public render() {
@@ -23,7 +23,7 @@ class Snack extends React.Component<ISnackProps, ISnackState> {
             <View style={{ flex: 1 }}>
                 <View style={{ alignSelf: "stretch", flexDirection: "row", marginHorizontal: 48, alignContent: "center" }}>
                     <Text style={{ alignItems: "stretch", flex: 1 }}>
-                        {this.props.snackInfo.productName}
+                        {this.props.product.productName}
                     </Text>
                     <Text>{this.state.quantity}</Text>
                 </View>
@@ -39,7 +39,8 @@ class Snack extends React.Component<ISnackProps, ISnackState> {
         let quantity = this.state.quantity + updateAmount;
         if (quantity < 0) quantity = 0;
 
-        this.setState({ ...this.state, quantity: quantity }, this.props.updated);
+        this.setState({ ...this.state, quantity: quantity },
+            () => this.props.updated(this.props.product, quantity));
     }
 }
 
