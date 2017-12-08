@@ -1,5 +1,5 @@
 import * as React from "react";
 import { AppRegistry } from "react-native";
-import { App } from "./views/app";
+import { AppShell } from "./views";
 
-AppRegistry.registerComponent('snackcounter', () => App);
+AppRegistry.registerComponent('snackcounter', () => AppShell);
