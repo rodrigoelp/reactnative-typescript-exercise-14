@@ -1,10 +1,10 @@
 interface IDietItem {
     productName: string;
     quantityEaten: number; 
-    associatedFood: IFoodDescription;
+    associatedFood: IProduct;
 }
 
-interface IFoodDescription {
+interface IProduct {
     Id: string;
     productName: string;
     photoUrl: string,
@@ -17,8 +17,8 @@ interface IUserConsumption {
 }
 
 interface IAppStore {
-    availableFood: IFoodDescription[];
+    availableFood: IProduct[];
     userInfo: IUserConsumption;
 }
 
-export { IDietItem, IFoodDescription, IAppStore, IUserConsumption };
+export { IDietItem, IProduct, IAppStore, IUserConsumption };

@@ -1,18 +1,29 @@
 import { AnyAction, Dispatch } from "redux";
-import { IUserConsumption, IFoodDescription, IDietItem } from "./models";
+import { IUserConsumption, IProduct, IDietItem } from "./models";
 
+/**
+ * Possible actions I will be taking into consideration.
+ */
 enum ActionType {
     ProductsAdded = "Products_Added",
     UserEatItem = "Yum_Yum_Yum",
 }
 
+/**
+ * General shape of actions to pass to @see userConsumptionReducer
+ */
 interface IConsumedAction extends AnyAction {
     type: ActionType;
-    item: IFoodDescription;
+    item: IProduct;
     amount: number;
 }
 
 const initialUserConsumption: IUserConsumption = { consumedItems: [], totalEnergyIntake: 0 };
+/**
+ * Affects the current consumed items by the user.
+ * @param state current consumed products
+ * @param action indicates which product has been newly added to the consumed list.
+ */
 const userConsumptionReducer = (state: IUserConsumption = initialUserConsumption, action: AnyAction): IUserConsumption => {
     const caction = action as IConsumedAction;
     if (caction.type === ActionType.UserEatItem) {
@@ -32,8 +43,13 @@ const userConsumptionReducer = (state: IUserConsumption = initialUserConsumption
     return state;
 }
 
-const initialFoodList: IFoodDescription[] = [];
-const availableFoodReducer = (state: IFoodDescription[] = initialFoodList, action: AnyAction): IFoodDescription[] => {
+const initialFoodList: IProduct[] = [];
+/**
+ * Affects the list of available products.
+ * @param state List of known products handled at this moment
+ * @param action action to refresh the list or include more items.
+ */
+const availableProductsReducer = (state: IProduct[] = initialFoodList, action: AnyAction): IProduct[] => {
     if (action.type === ActionType.ProductsAdded) {
         return state.concat(action.payload);
     }
@@ -43,14 +59,21 @@ const availableFoodReducer = (state: IFoodDescription[] = initialFoodList, actio
 // Creating list of action Creators
 //**********************************************/
 
+/**
+ * fetches the list of products bundled with the application.
+ */
 const fetchAvailableProductsActionCreator = () => (dispatch: Dispatch<any>): void => {
-    const food = require("../res/db.json") as IFoodDescription[];
+    const food = require("../res/db.json") as IProduct[];
     dispatch({ type: ActionType.ProductsAdded, payload: food });
 }
-
-const updateDietActionCreator = (item: IFoodDescription, quantity: number) => (dispatch: Dispatch<any>): void => {
+/**
+ * updates the information associated with the current diet of the user.
+ * @param item product chosen by the user
+ * @param quantity amount the user has consumed this item
+ */
+const updateDietActionCreator = (item: IProduct, quantity: number) => (dispatch: Dispatch<any>): void => {
     const action: IConsumedAction = { type: ActionType.UserEatItem, item: item, amount: quantity };
     dispatch(action);
 }
 
-export { userConsumptionReducer, availableFoodReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };
+export { userConsumptionReducer, availableProductsReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };

@@ -1,11 +1,10 @@
 import * as React from "react";
 import { View, Text, Button, StyleSheet, Platform, FlatList } from "react-native";
-import { Dispatch } from "redux";
+import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
-import { Snack } from "./snack";
-import { IDietItem, IFoodDescription, IAppStore, IUserConsumption } from "../models";
+import { IProduct, IAppStore, IUserConsumption } from "../models";
 import { fetchAvailableProductsActionCreator, updateDietActionCreator } from "../reducers";
-import { bindActionCreators } from "redux";
+import { Snack } from "./snack";
 
 const styles = StyleSheet.create({
     container: {
@@ -29,12 +28,12 @@ const styles = StyleSheet.create({
 interface IAppProps {
     hasEatenAnythingToday: boolean;
     totalIntake: number;
-    availableProducts: IFoodDescription[];
+    availableProducts: IProduct[];
 }
 
 interface IAppActions {
     fetchProducts: () => any;
-    updateUserDiet: (product: IFoodDescription, qty: number) => any;
+    updateUserDiet: (product: IProduct, qty: number) => any;
 }
 
 type AppProps = IAppProps & IAppActions;
@@ -66,7 +65,7 @@ class App extends React.Component<AppProps> {
                     ListEmptyComponent={this.renderEmptyList}
                     data={this.props.availableProducts}
                     renderItem={({ item }) => this.renderItem(item)}
-                    keyExtractor={(item: IFoodDescription) => item.productName}
+                    keyExtractor={(item: IProduct) => item.productName}
                 />
             </View>
         );
@@ -80,13 +79,13 @@ class App extends React.Component<AppProps> {
         return <Text style={styles.welcome}>What have you eaten today?</Text>
     }
 
-    private renderItem = (item: IFoodDescription) => {
+    private renderItem = (item: IProduct) => {
         return (
             <Snack product={item} updated={this.handleSnackUpdated} />
         )
     }
 
-    private handleSnackUpdated = (product: IFoodDescription, qty: number) => {
+    private handleSnackUpdated = (product: IProduct, qty: number) => {
         this.props.updateUserDiet(product, qty);
     }
 }

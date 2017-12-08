@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
-import { userConsumptionReducer, availableFoodReducer } from "./reducers";
+import { userConsumptionReducer, availableProductsReducer } from "./reducers";
 
 const middleware = applyMiddleware(thunk);
 
@@ -9,7 +9,7 @@ const middleware = applyMiddleware(thunk);
  * so the interface can match when dealing with the state.
  */
 const reducers = combineReducers({
-    availableFood: availableFoodReducer,
+    availableFood: availableProductsReducer,
     userInfo: userConsumptionReducer
 });
 

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
-import { IFoodDescription } from "../models";
+import { IProduct } from "../models";
 
 interface ISnackProps {
-    product: IFoodDescription;
-    updated: (product: IFoodDescription, qty: number) => void;
+    product: IProduct;
+    updated: (product: IProduct, qty: number) => void;
 }
 
 interface ISnackState {
