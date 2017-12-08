@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Button, StyleSheet, Platform, FlatList } from "react-native";
 import { Snack } from "./snack";
-import { IDietItem, IFoodDescription } from "./models";
+import { IDietItem, IFoodDescription } from "../models";
 
 const styles = StyleSheet.create({
     container: {
@@ -35,7 +35,7 @@ class App extends React.Component<{}, IAppState> {
     }
 
     componentDidMount() {
-        const data = require("../res/db.json") as IFoodDescription[];
+        const data = require("../../res/db.json") as IFoodDescription[];
         this.setState({
             ... this.state,
             currentDiet: data.map<IDietItem>((x) => ({ productName: x.productName, quantityEaten: 0, associatedFood: x }))

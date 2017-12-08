@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
-import { IDietItem } from "./models";
+import { IDietItem } from "../models";
 
 interface ISnackProps {
     snackInfo: IDietItem;
