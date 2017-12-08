@@ -48,7 +48,7 @@ class App extends React.Component<AppProps> {
     }
 
     public render() {
-        const energyForamtter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 3 });
+        const energyForamtter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 });
         return (
             <View style={styles.container}>
                 <Text style={{ fontSize: 24, textAlign: "center", marginBottom: 24 }}>
@@ -57,7 +57,7 @@ class App extends React.Component<AppProps> {
                 <Text style={{ textAlign: "right", marginHorizontal: 40, marginBottom: 24 }}>
                     You have consumed today:{"\n"}
                     <Text style={{ fontSize: 24 }}>
-                        {energyForamtter.format(this.props.totalIntake)} / 8700kJ
+                        {energyForamtter.format(this.props.totalIntake)} / {energyForamtter.format(8700)}kJ
                     </Text>
                 </Text>
                 <FlatList
