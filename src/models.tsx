@@ -17,7 +17,8 @@ interface IUserConsumption {
 }
 
 interface IAppStore {
-    availableFood: IProduct[];
+    hasLoadedProducts: boolean;
+    availableProducts: IProduct[];
     userInfo: IUserConsumption;
 }
 

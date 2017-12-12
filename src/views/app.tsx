@@ -29,6 +29,7 @@ interface IAppProps {
     hasEatenAnythingToday: boolean;
     totalIntake: number;
     availableProducts: IProduct[];
+    hasLoadedProducts: boolean;
 }
 
 interface IAppActions {
@@ -44,6 +45,10 @@ class App extends React.Component<AppProps> {
     }
 
     componentDidMount() {
+        // if you comment this if statement, you will get warning when binding the list because the items
+        // will be added multiple times as you launch the application over and over and over again.
+        if (this.props.hasLoadedProducts)
+            return;
         this.props.fetchProducts();
     }
 
@@ -94,7 +99,8 @@ const mapStateToProps = (state: IAppStore): IAppProps => {
     return {
         hasEatenAnythingToday: state.userInfo.totalEnergyIntake !== 0,
         totalIntake: state.userInfo.totalEnergyIntake,
-        availableProducts: state.availableFood
+        availableProducts: state.availableProducts,
+        hasLoadedProducts: state.hasLoadedProducts,
     };
 }
 

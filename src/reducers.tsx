@@ -55,6 +55,17 @@ const availableProductsReducer = (state: IProduct[] = initialFoodList, action: A
     }
     return state;
 }
+/**
+ * Affects the marker to prevent the application from loading from resources when it has
+ * already loaded data from the persisted storage.
+ */
+const hasLoadedProductsReducer = (state: boolean = false, action: AnyAction): boolean => {
+    if (action.type == ActionType.ProductsAdded) {
+        return true;
+    }
+    return state;
+}
+
 //**********************************************/
 // Creating list of action Creators
 //**********************************************/
@@ -76,4 +87,4 @@ const updateDietActionCreator = (item: IProduct, quantity: number) => (dispatch:
     dispatch(action);
 }
 
-export { userConsumptionReducer, availableProductsReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };
+export { userConsumptionReducer, availableProductsReducer, hasLoadedProductsReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };
