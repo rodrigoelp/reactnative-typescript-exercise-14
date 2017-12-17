@@ -1,8 +1,8 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import thunk from "redux-thunk";
-import { persistStore, persistCombineReducers, PersistConfig } from "redux-persist";
 import { AsyncStorage } from "react-native";
-import { userConsumptionReducer, availableProductsReducer, hasLoadedProductsReducer } from "./reducers";
+import thunk from "redux-thunk";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { PersistConfig, persistCombineReducers, persistStore } from "redux-persist";
+import { userConsumptionReducer, availableProductsReducer, hasLoadedProductsReducer, loadingReducer } from "./reducers";
 
 const middleware = applyMiddleware(thunk);
 
@@ -23,6 +23,7 @@ const reducers = persistCombineReducers(config, {
     availableProducts: availableProductsReducer,
     userInfo: userConsumptionReducer,
     hasLoadedProducts: hasLoadedProductsReducer,
+    isLoading: loadingReducer
 });
 
 /**

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Button, StyleSheet, Platform, FlatList } from "react-native";
+import { View, Text, Button, StyleSheet, Platform, FlatList, ActivityIndicator } from "react-native";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import { IProduct, IAppStore, IUserConsumption } from "../models";
@@ -18,11 +18,6 @@ const styles = StyleSheet.create({
         textAlignVertical: "center",
         margin: 10,
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
 });
 
 interface IAppProps {
@@ -30,6 +25,7 @@ interface IAppProps {
     totalIntake: number;
     availableProducts: IProduct[];
     hasLoadedProducts: boolean;
+    isLoading: boolean;
 }
 
 interface IAppActions {
@@ -47,6 +43,7 @@ class App extends React.Component<AppProps> {
     componentDidMount() {
         // if you comment this if statement, you will get warning when binding the list because the items
         // will be added multiple times as you launch the application over and over and over again.
+        // this will save some time when displaying the application for the very first time.
         if (this.props.hasLoadedProducts)
             return;
         this.props.fetchProducts();
@@ -81,7 +78,12 @@ class App extends React.Component<AppProps> {
     }
 
     private renderHeader = () => {
-        return <Text style={styles.welcome}>What have you eaten today?</Text>
+        return (
+            <View style={{ flex: 1 }}>
+                <ActivityIndicator size="large" hidesWhenStopped={true} animating={this.props.isLoading} style={{ alignSelf: "center" }} />
+                <Text style={styles.welcome}>What have you eaten today?</Text>
+            </View>
+        );
     }
 
     private renderItem = (item: IProduct) => {
@@ -101,6 +103,7 @@ const mapStateToProps = (state: IAppStore): IAppProps => {
         totalIntake: state.userInfo.totalEnergyIntake,
         availableProducts: state.availableProducts,
         hasLoadedProducts: state.hasLoadedProducts,
+        isLoading: state.isLoading,
     };
 }
 

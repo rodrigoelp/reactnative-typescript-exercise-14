@@ -7,6 +7,8 @@ import { IUserConsumption, IProduct, IDietItem } from "./models";
 enum ActionType {
     ProductsAdded = "Products_Added",
     UserEatItem = "Yum_Yum_Yum",
+    LoadingInfo = "DisplayLoading",
+    LoadingDone = "HideLoading",
 }
 
 /**
@@ -66,6 +68,19 @@ const hasLoadedProductsReducer = (state: boolean = false, action: AnyAction): bo
     return state;
 }
 
+/**
+ * Affects the loading indicator.
+ */
+const loadingReducer = (state: boolean = false, action: AnyAction): boolean => {
+    switch (action.type) {
+        case ActionType.LoadingInfo:
+            return true;
+        case ActionType.LoadingDone:
+            return false;
+        default: return state;
+    }
+}
+
 //**********************************************/
 // Creating list of action Creators
 //**********************************************/
@@ -74,8 +89,12 @@ const hasLoadedProductsReducer = (state: boolean = false, action: AnyAction): bo
  * fetches the list of products bundled with the application.
  */
 const fetchAvailableProductsActionCreator = () => (dispatch: Dispatch<any>): void => {
-    const food = require("../res/db.json") as IProduct[];
-    dispatch({ type: ActionType.ProductsAdded, payload: food });
+    dispatch({ type: ActionType.LoadingInfo });
+    setTimeout(() => {
+        const food = require("../res/db.json") as IProduct[];
+        dispatch({ type: ActionType.ProductsAdded, payload: food });
+        dispatch({ type: ActionType.LoadingDone });
+    }, 3000);
 }
 /**
  * updates the information associated with the current diet of the user.
@@ -87,4 +106,4 @@ const updateDietActionCreator = (item: IProduct, quantity: number) => (dispatch:
     dispatch(action);
 }
 
-export { userConsumptionReducer, availableProductsReducer, hasLoadedProductsReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };
+export { userConsumptionReducer, availableProductsReducer, hasLoadedProductsReducer, loadingReducer, fetchAvailableProductsActionCreator, updateDietActionCreator };
