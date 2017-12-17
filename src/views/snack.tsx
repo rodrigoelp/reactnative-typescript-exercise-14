@@ -1,10 +1,11 @@
 import * as React from "react";
 import { View, Text } from "react-native";
 import { Button, Avatar } from "react-native-elements";
-import { IProduct } from "../models";
+import { IProduct, IDietItem } from "../models";
 
 interface ISnackProps {
     product: IProduct;
+    consumed: IDietItem | undefined;
     updated: (product: IProduct, qty: number) => void;
 }
 
@@ -16,7 +17,11 @@ class Snack extends React.Component<ISnackProps, ISnackState> {
     constructor(props: ISnackProps) {
         super(props);
 
-        this.state = { quantity: 0 };
+        let qty = 0;
+        if (props.consumed) {
+            qty = props.consumed.quantityEaten;
+        }
+        this.state = { quantity: qty };
     }
 
     public render() {

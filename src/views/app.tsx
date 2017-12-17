@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, Button, StyleSheet, Platform, FlatList, ActivityIndicator } from "react-native";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
-import { IProduct, IAppStore, IUserConsumption } from "../models";
+import { IProduct, IAppStore, IUserConsumption, IDietItem } from "../models";
 import { fetchAvailableProductsActionCreator, updateDietActionCreator } from "../reducers";
 import { Snack } from "./snack";
 
@@ -24,6 +24,7 @@ interface IAppProps {
     hasEatenAnythingToday: boolean;
     totalIntake: number;
     availableProducts: IProduct[];
+    consumed: IDietItem[],
     hasLoadedProducts: boolean;
     isLoading: boolean;
 }
@@ -87,8 +88,9 @@ class App extends React.Component<AppProps> {
     }
 
     private renderItem = (item: IProduct) => {
+        const consumedItem = this.props.consumed.find(c => c.associatedFood.Id === item.Id);
         return (
-            <Snack product={item} updated={this.handleSnackUpdated} />
+            <Snack product={item} consumed={consumedItem} updated={this.handleSnackUpdated} />
         )
     }
 
@@ -101,6 +103,7 @@ const mapStateToProps = (state: IAppStore): IAppProps => {
     return {
         hasEatenAnythingToday: state.userInfo.totalEnergyIntake !== 0,
         totalIntake: state.userInfo.totalEnergyIntake,
+        consumed: state.userInfo.consumedItems,
         availableProducts: state.availableProducts,
         hasLoadedProducts: state.hasLoadedProducts,
         isLoading: state.isLoading,
